@@ -52,7 +52,7 @@ class ViewController: UITableViewController {
                 if isPossible(word: lowerAnswer) {
                     if isOriginal(word: lowerAnswer) {
                         if isReal(word: lowerAnswer) {
-                            usedWords.insert(answer, at: 0)
+                            usedWords.insert(lowerAnswer, at: 0)
                             let indexPath = IndexPath(row: 0, section: 0)
                             tableView.insertRows(at: [indexPath], with: .automatic)
                             return
@@ -67,7 +67,7 @@ class ViewController: UITableViewController {
                     showErrorMessage(title: "Word not possible", message: "You can't speel that word from \(title.lowercased()).")
                 }
             } else {
-                showErrorMessage(title: "Word is too short", message: "Write a word longer than 3 characters")
+                showErrorMessage(title: "Word is too short", message: "Write a word longer than 2 characters")
             }
         } else {
             showErrorMessage(title: "Word is equal to start word", message: "Provide a word diffrent from the start word")
@@ -84,7 +84,7 @@ class ViewController: UITableViewController {
     }
     
     func isNotShort(word: String) -> Bool {
-        return word.count > 3
+        return word.count > 2
     }
     
     func isNotStartWord(word: String) -> Bool {

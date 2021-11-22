@@ -52,16 +52,30 @@
                                     <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gf9-Fb-8HD"/>
                                 </connections>
                             </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pAY-lA-gfe">
+                                <rect key="frame" x="107" y="604" width="200" height="4"/>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kf1-uN-6ox">
+                                <rect key="frame" x="186" y="563" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="bcP-Ak-dbz" firstAttribute="centerX" secondItem="7oc-e5-jny" secondAttribute="centerX" id="5PE-8p-7qD"/>
+                            <constraint firstItem="pAY-lA-gfe" firstAttribute="top" secondItem="kf1-uN-6ox" secondAttribute="bottom" constant="20" id="5pU-Xr-SHI"/>
+                            <constraint firstItem="kf1-uN-6ox" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Dos-8h-aRY"/>
+                            <constraint firstItem="pAY-lA-gfe" firstAttribute="width" secondItem="q3t-wC-E19" secondAttribute="width" id="FQt-Bn-2S5"/>
                             <constraint firstItem="q3t-wC-E19" firstAttribute="centerX" secondItem="bcP-Ak-dbz" secondAttribute="centerX" id="Ue2-Zf-kA5"/>
                             <constraint firstItem="q3t-wC-E19" firstAttribute="top" secondItem="bcP-Ak-dbz" secondAttribute="bottom" constant="20" id="X1P-iu-wmo"/>
                             <constraint firstItem="7oc-e5-jny" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="gHJ-O7-Jev"/>
+                            <constraint firstItem="pAY-lA-gfe" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="nl9-BK-fXx"/>
                             <constraint firstItem="7oc-e5-jny" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="s01-me-8tl"/>
                             <constraint firstItem="bcP-Ak-dbz" firstAttribute="top" secondItem="7oc-e5-jny" secondAttribute="bottom" constant="20" id="yb5-WC-Qcl"/>
+                            <constraint firstItem="kf1-uN-6ox" firstAttribute="top" secondItem="q3t-wC-E19" secondAttribute="bottom" constant="115" id="zbo-O1-KtM"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="pwo-n0-2Be"/>
@@ -69,6 +83,8 @@
                         <outlet property="button1" destination="7oc-e5-jny" id="VW7-jW-U5o"/>
                         <outlet property="button2" destination="bcP-Ak-dbz" id="jBu-LZ-2TQ"/>
                         <outlet property="button3" destination="q3t-wC-E19" id="NdK-x7-gHZ"/>
+                        <outlet property="questionsLabel" destination="kf1-uN-6ox" id="gob-Pg-YIj"/>
+                        <outlet property="questionsProgressView" destination="pAY-lA-gfe" id="UFO-y3-vPi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

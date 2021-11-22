@@ -188,7 +188,7 @@ class ViewController: UIViewController {
         activatedButtons.removeAll()
     }
     
-    func loadLevel() {
+    @objc func loadLevel() {
         var clueString = ""
         var solutionsString = ""
         var letterBits = [String]()
@@ -214,22 +214,36 @@ class ViewController: UIViewController {
                     letterBits += bits
                 }
             }
-            cluesLabel.text = clueString.trimmingCharacters(in: .whitespacesAndNewlines)
-            answersLabel.text = solutionsString.trimmingCharacters(in: .whitespacesAndNewlines)
+//            cluesLabel.text = clueString.trimmingCharacters(in: .whitespacesAndNewlines)
+//            answersLabel.text = solutionsString.trimmingCharacters(in: .whitespacesAndNewlines)
             
-            letterButtons.shuffle()
-            
-            if letterButtons.count == letterBits.count {
-                for i in 0..<letterButtons.count {
-                    letterButtons[i].setTitle(letterBits[i], for: .normal)
-                }
+            performSelector(onMainThread: #selector(updateCluesLabelText), with: clueString, waitUntilDone: false)
+            performSelector(onMainThread: #selector(updateAnswersLabelText), with: solutionsString, waitUntilDone: false)
+            performSelector(onMainThread: #selector(updateLetterButtons), with: letterBits, waitUntilDone: false)
+        }
+    }
+    
+    @objc func updateCluesLabelText(clueString: String) {
+        cluesLabel.text = clueString.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    @objc func updateAnswersLabelText(solutionsString: String) {
+        answersLabel.text = solutionsString.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    @objc func updateLetterButtons(letterBits: [String]) {
+        letterButtons.shuffle()
+        
+        if letterButtons.count == letterBits.count {
+            for i in 0..<letterButtons.count {
+                letterButtons[i].setTitle(letterBits[i], for: .normal)
             }
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadLevel()
+        performSelector(inBackground: #selector(loadLevel), with: nil)
     }
 
 

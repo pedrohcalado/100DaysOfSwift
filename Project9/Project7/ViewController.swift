@@ -14,9 +14,6 @@ class ViewController: UITableViewController {
     
     let searchController = UISearchController(searchResultsController: nil)
     
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,58 +27,51 @@ class ViewController: UITableViewController {
         navigationItem.searchController = searchController
         // 5
         definesPresentationContext = true
-
         
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
+        //        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Credits", style: .plain, target: self, action: #selector(creditsTapped))
-
+        
+        performSelector(inBackground: #selector(fetchJSON), with: nil)
+    }
+    
+    @objc func fetchJSON() {
         if navigationController?.tabBarItem.tag == 0 {
             urlString = "https://www.hackingwithswift.com/samples/petitions-1.json"
         } else {
-//            urlString = "https://api.whitehouse.gov/v1/petitions.json?signatureCountFloor=1000&limit=100"
+            //            urlString = "https://api.whitehouse.gov/v1/petitions.json?signatureCountFloor=1000&limit=100"
             urlString = "https://www.hackingwithswift.com/samples/petitions-2.json"
         }
-        
-//        let urlString = "https://pokeapi.co/api/v2/ability/?limit=20&offset=20"
-        
+        //        let urlString = "https://pokeapi.co/api/v2/ability/?limit=20&offset=20"
         if let urlString = urlString {
             if let url = URL(string: urlString) {
-             
                 if let data = try? Data(contentsOf: url) {
-                    print(data)
                     parse(json: data)
                     return
                 }
-                showError()
             }
+            
+        }
+        performSelector(onMainThread: #selector(showError), with: nil, waitUntilDone: false)
+    }
+    
+    func filterContentForSearchText(_ searchText: String) {
+        filteredPetitions = petitions.filter { (petition: Petition) -> Bool in
+            return petition.title.lowercased().contains(searchText.lowercased())
         }
         
-        
-        
-    }
-    
-    @objc func filterContentForSearchText(_ searchText: String) {
-      filteredPetitions = petitions.filter { (petition: Petition) -> Bool in
-          return petition.title.lowercased().contains(searchText.lowercased())
-      }
-      
-        performSelector(onMainThread: #selector(updateTable), with: nil, waitUntilDone: false)
-    }
-    
-    @objc func updateTable() {
         tableView.reloadData()
     }
     
     var isSearchBarEmpty: Bool {
-      return searchController.searchBar.text?.isEmpty ?? true
+        return searchController.searchBar.text?.isEmpty ?? true
     }
     
     var isFiltering: Bool {
-      return searchController.isActive && !isSearchBarEmpty
+        return searchController.isActive && !isSearchBarEmpty
     }
-
     
-    func showError() {
+    
+    @objc func showError() {
         let ac = UIAlertController(title: "Loading error", message: "there was an error", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         present(ac, animated: true, completion: nil)
@@ -91,7 +81,7 @@ class ViewController: UITableViewController {
         guard let url = urlString else {
             return
         }
-
+        
         let ac = UIAlertController(title: "Credits", message: "\(url)", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .cancel))
         present(ac, animated: true, completion: nil)
@@ -100,17 +90,18 @@ class ViewController: UITableViewController {
     func parse(json: Data) {
         let decoder = JSONDecoder()
         if let jsonPetitions = try? decoder.decode(Petitions.self, from: json) {
-//            print(jsonPetitions)
             petitions = jsonPetitions.results
-            tableView.reloadData()
+            tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: false)
+        } else {
+            performSelector(onMainThread: #selector(showError), with: nil, waitUntilDone: false)
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering {
             return filteredPetitions.count
-          }
-          return petitions.count
+        }
+        return petitions.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -123,7 +114,7 @@ class ViewController: UITableViewController {
         } else {
             petition = petitions[indexPath.row]
         }
-    
+        
         content.text = petition.title
         content.secondaryText = petition.body
         
@@ -148,11 +139,10 @@ class ViewController: UITableViewController {
 }
 
 extension ViewController: UISearchResultsUpdating {
-  func updateSearchResults(for searchController: UISearchController) {
-      let searchBar = searchController.searchBar
-      performSelector(inBackground: #selector(filterContentForSearchText), with: searchBar.text!)
-
-  }
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        filterContentForSearchText(searchBar.text!)
+    }
 }
 
 

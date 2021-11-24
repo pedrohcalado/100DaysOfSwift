@@ -12,12 +12,13 @@ class ViewController: UITableViewController {
     var usedWords = [String]()
     var errorTitle: String?
     var errorMessage: String?
+    var dataToSave: [String: [String]]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(promptForAnswer))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(startGame))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(startGameWithNewWord))
         
         if let startWordsUrl = Bundle.main.url(forResource: "start", withExtension: "txt") {
             if let startWords = try? String(contentsOf: startWordsUrl) {
@@ -28,7 +29,7 @@ class ViewController: UITableViewController {
         if allWords.isEmpty {
             allWords = ["silkworm"]
         }
-        
+//        save()
         startGame()
     }
     
@@ -53,6 +54,7 @@ class ViewController: UITableViewController {
                     if isOriginal(word: lowerAnswer) {
                         if isReal(word: lowerAnswer) {
                             usedWords.insert(lowerAnswer, at: 0)
+                            save()
                             let indexPath = IndexPath(row: 0, section: 0)
                             tableView.insertRows(at: [indexPath], with: .automatic)
                             return
@@ -126,11 +128,44 @@ class ViewController: UITableViewController {
         return cell
     }
     
-    @objc func startGame() {
+    @objc func startGameWithNewWord() {
         title = allWords.randomElement()
         usedWords.removeAll(keepingCapacity: true)
         tableView.reloadData()
     }
     
+    func startGame() {
+        let savedWord = getUsedWords()?.keys.first
+        usedWords = getUsedWords()?.values.first ?? []
+        title = savedWord == "" ? allWords.randomElement() : savedWord
+        tableView.reloadData()
+    }
+    
+    func save() {
+        dataToSave = [title ?? "": usedWords]
+        let jsonEncoder = JSONEncoder()
+        
+        if let savedData = try? jsonEncoder.encode(dataToSave) {
+            let defaults = UserDefaults.standard
+            defaults.set(savedData, forKey: "words")
+        } else {
+            print("Failed to save words.")
+        }
+    }
+    
+    func getUsedWords() -> [String: [String]]? {
+        let jsonDecoder = JSONDecoder()
+        let defaults = UserDefaults.standard
+        var data: [String: [String]] = [:]
+        
+        if let savedWords = defaults.object(forKey: "words") as? Data {
+            do {
+                data = try jsonDecoder.decode([String: [String]].self, from: savedWords)
+            } catch {
+                print("Failed to load words.")
+            }
+        }
+        return data
+    }
 }
 

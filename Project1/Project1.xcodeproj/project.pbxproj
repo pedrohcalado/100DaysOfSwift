@@ -24,6 +24,7 @@
 		C1C02C892739B67F008B4999 /* nssl0033.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C1C02C7F2739B67F008B4999 /* nssl0033.jpg */; };
 		C1C02C8A2739B67F008B4999 /* nssl0034.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C1C02C802739B67F008B4999 /* nssl0034.jpg */; };
 		C1C02C8C273A8D54008B4999 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C02C8B273A8D54008B4999 /* DetailViewController.swift */; };
+		EB8EEE51274D7A5400B1DD7C /* Picture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8EEE50274D7A5400B1DD7C /* Picture.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		C1C02C7F2739B67F008B4999 /* nssl0033.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nssl0033.jpg; sourceTree = "<group>"; };
 		C1C02C802739B67F008B4999 /* nssl0034.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nssl0034.jpg; sourceTree = "<group>"; };
 		C1C02C8B273A8D54008B4999 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		EB8EEE50274D7A5400B1DD7C /* Picture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picture.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 				C1C02C622739B41A008B4999 /* AppDelegate.swift */,
 				C1C02C642739B41A008B4999 /* SceneDelegate.swift */,
 				C1C02C662739B41A008B4999 /* ViewController.swift */,
+				EB8EEE50274D7A5400B1DD7C /* Picture.swift */,
 				C1C02C8B273A8D54008B4999 /* DetailViewController.swift */,
 				C1C02C682739B41A008B4999 /* Main.storyboard */,
 				C1C02C6B2739B41D008B4999 /* Assets.xcassets */,
@@ -190,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1C02C672739B41A008B4999 /* ViewController.swift in Sources */,
+				EB8EEE51274D7A5400B1DD7C /* Picture.swift in Sources */,
 				C1C02C632739B41A008B4999 /* AppDelegate.swift in Sources */,
 				C1C02C652739B41A008B4999 /* SceneDelegate.swift in Sources */,
 				C1C02C8C273A8D54008B4999 /* DetailViewController.swift in Sources */,

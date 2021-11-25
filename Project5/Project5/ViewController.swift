@@ -29,7 +29,9 @@ class ViewController: UITableViewController {
         if allWords.isEmpty {
             allWords = ["silkworm"]
         }
-//        save()
+        
+        UserDefaults.standard.register(defaults: ["words": ""])
+
         startGame()
     }
     
@@ -46,6 +48,7 @@ class ViewController: UITableViewController {
     }
     
     func submit(_ answer: String) {
+        
         let lowerAnswer = answer.lowercased()
         
         if isNotStartWord(word: lowerAnswer) {
@@ -137,7 +140,7 @@ class ViewController: UITableViewController {
     func startGame() {
         let savedWord = getUsedWords()?.keys.first
         usedWords = getUsedWords()?.values.first ?? []
-        title = savedWord == "" ? allWords.randomElement() : savedWord
+        title = savedWord == nil ? allWords.randomElement() : savedWord
         tableView.reloadData()
     }
     

@@ -31,8 +31,6 @@ class ViewController: UITableViewController {
             }
         }
         
-        print(picturesData)
-        
         performSelector(inBackground: #selector(getPictures), with: nil)
     }
     

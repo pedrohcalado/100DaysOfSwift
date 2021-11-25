@@ -131,7 +131,12 @@ class ViewController: UIViewController {
         
         currentAnswer.text = currentAnswer.text?.appending(buttonTItle)
         activatedButtons.append(sender)
-        sender.isHidden = true
+        
+        UIView.animate(withDuration: 1, delay: 0, options: [], animations: {
+            sender.alpha = 0.1
+        })
+        
+//        sender.isHidden = true
     }
     
     @objc func submitTapped(_ sender: UIButton) {
@@ -148,7 +153,7 @@ class ViewController: UIViewController {
             currentAnswer.text = ""
             score += 1
             
-            if letterButtons.allSatisfy({ $0.isHidden == true}) {
+            if letterButtons.allSatisfy({ $0.alpha < 1}) {
                 let ac = UIAlertController(title: "Well done", message: "Are you ready for the next level", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Let's go", style: .default, handler: levelUp))
                 present(ac, animated: true, completion: nil)
@@ -164,7 +169,7 @@ class ViewController: UIViewController {
     func wrongAnswer(action: UIAlertAction) {
         score -= 1
         currentAnswer.text = ""
-        activatedButtons.forEach{ $0.isHidden = false }
+        activatedButtons.forEach{ $0.alpha = 1 }
     }
     
     func levelUp(action: UIAlertAction) {
@@ -174,7 +179,7 @@ class ViewController: UIViewController {
         loadLevel()
         
         for button in letterButtons {
-            button.isHidden = false
+            button.alpha = 1
         }
     }
     
@@ -182,7 +187,7 @@ class ViewController: UIViewController {
         currentAnswer.text = ""
         
         for button in activatedButtons {
-            button.isHidden = false
+            button.alpha = 1
         }
         
         activatedButtons.removeAll()

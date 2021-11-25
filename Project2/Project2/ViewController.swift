@@ -98,7 +98,19 @@ class ViewController: UIViewController {
     
     @IBAction func buttonTapped(_ sender: UIButton) {
         questionsAsked += 1
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: [], animations: {
+            sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }) { [weak self] _ in
+            self?.showAlertAfterTapping(forButton: sender)
+            sender.transform = .identity
+        }
+    }
+    
+    func showAlertAfterTapping(forButton sender: UIButton) {
+        guard let highestScore = getScore() else { return }
         var title: String
+        
         if sender.tag == correctAnswer {
             title = "Correct"
             score += 1
@@ -107,20 +119,18 @@ class ViewController: UIViewController {
             score -= 1
         }
         
-        guard let highestScore = getScore() else { return }
-        
-        if questionsAsked == maxNumberOfQuestions {
-            let ac = highestScore < score ?
-                UIAlertController(title: title, message: "Your final score is \(score), which is your new highest score, it was \(highestScore) before", preferredStyle: .alert) :
-                UIAlertController(title: title, message: "Your final score is \(score)", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "Play again", style: .default, handler: askQuestion))
-            present(ac, animated: true)
+        if self.questionsAsked == self.maxNumberOfQuestions {
+            let ac = highestScore < self.score ?
+            UIAlertController(title: title, message: "Your final score is \(self.score), which is your new highest score, it was \(highestScore) before", preferredStyle: .alert) :
+            UIAlertController(title: title, message: "Your final score is \(self.score)", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Play again", style: .default, handler: self.askQuestion))
+            self.present(ac, animated: true)
         } else {
             let ac = title == "Correct" ?
-                UIAlertController(title: title, message: "Your score is \(score)", preferredStyle: .alert) :
-                UIAlertController(title: title, message: "That's the flag of \(countries[sender.tag].uppercased()). Your score is \(score)", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
-            present(ac, animated: true)
+            UIAlertController(title: title, message: "Your score is \(self.score)", preferredStyle: .alert) :
+            UIAlertController(title: title, message: "That's the flag of \(self.countries[sender.tag].uppercased()). Your score is \(self.score)", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: self.askQuestion))
+            self.present(ac, animated: true)
         }
     }
 }
